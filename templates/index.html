@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+</head>
+<body>
+    <h1>Menú</h1>
+    <ul>
+        <li><a href="#">Crear Integrante</a></li>
+        {% if integrantes %}
+            <li><a href="#">Crear Grupo Musical</a></li>
+        {% else %}
+            <li>Crear Grupo Musical (Necesita integrantes)</li>
+        {% endif %}
+
+        {% if grupos %}
+            <li><a href="#">Crear Concierto</a></li>
+        {% else %}
+            <li>Crear Concierto (Necesita grupos)</li>
+        {% endif %}
+    </ul>
+</body>
+</html>
