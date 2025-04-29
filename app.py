@@ -66,15 +66,27 @@ class Grupo(db.Model):
 
     def get_integrante(self):
         return f"{self.integrante1}, {self.integrante2}, {self.integrante3}, {self.integrante4}, {self.integrante5}"
+    
     def get_nombre(self):
         return self.nombre
+    
     def get_genero(self):
         return self.genero
+    
     def get_fecha(self):
         return self.fecha_formacion
     
     def set_integrantes(self, new):
         pass #se revisa
+
+    def set_nombre(self,new):
+        self.nombre=new
+
+    def set_genero(self,new):
+        self.genero=new
+
+    def set_fecha(self,new):
+        self.fecha_formacion=new
     
 
 
@@ -87,3 +99,27 @@ class Concierto(db.Model):
     grupo3 = db.Column(db.String(80), nullable = False, default=None)
     hora_inicio = db.Column(db.Time,nullable = False )
     hora_fin = db.Column(db.Time, nullable = False)
+
+    def get_ubicacion(self):
+        return self.ubicacion
+    
+    def get_fecha(self):
+        return self.fecha
+    
+    def get_grupos(self):
+        return f"{self.grupo1}, {self.grupo2}, {self.grupo3}"
+    
+    def get_horario(self):
+        return f"{self.hora_inicio}, {self.hora_fin}"
+    
+    def set_ubicacion(self, new):
+        self.ubicacion=new
+
+    def set_fecha(self, new):
+        self.fecha=new
+
+    def set_grupos(self, new):
+        pass #revisar
+
+    def set_horario(self, new):
+        pass #revisar
