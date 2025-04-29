@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crear integrante</title>
 </head>
 <body>
-    
+    <h2>Crear Integrante</h2>
+    <form method="post">
+        <label>Nombre: <input type="text" name="nombre" required></label><br>
+        <label>Apellidos: <input type="text" name="apellidos" required></label><br>
+        <label>Edad: <input type="number" name="edad" min="0" required></label><br>
+        <label>Nacionalidad: <input type="text" name="nacionalidad" required></label><br>
+        <label>Fecha de nacimiento: <input type="date" name="fecha_nacimiento" required></label><br>
+        <label>Rol en el grupo: <input type="text" name="rol" required></label><br>
+        <input type="submit" value="Crear Integrante">
+    </form>
+    <a href="{{ url_for('menu') }}">Volver al menú</a>
 </body>
 </html>
