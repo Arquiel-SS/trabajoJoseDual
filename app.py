@@ -151,7 +151,7 @@ def mostrar_opciones_index():
 @app.route('/add_integrante', methods=["GET", "POST"])
 def agregar_user():
     if request.method == "POST":
-        nombre = request.form['id']
+        nombre = request.form['nombre']
         apellidos = request.form['apellidos']
         edad = request.form['edad']
         nacionalidad = request.form['nacionalidad']
