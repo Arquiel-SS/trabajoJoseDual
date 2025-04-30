@@ -31,34 +31,31 @@
         <br>
         <br>
 
-            <label>Grupo 1:<br>
+            <label>Grupo 1:</label>
                 <select name="grupo1" required>
                     {% for grupo in grupos %}
-                        <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                        <option value="grupo1">{{ grupo.nombre }}</option>
                     {% endfor %}
                 </select>
-            </label><br><br>
+            <br><br>
 
-            <label>Grupo 2 (opcional):<br>
+            <label>Grupo 2:</label>
                 <select name="grupo2">
-                    <option value="">---</option>
+                    <option value=""></option>
                     {% for grupo in grupos %}
-                        <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                        <option value="grupo2">{{ grupo.nombre }}</option>
                     {% endfor %}
                 </select>
-            </label><br><br>
+            <br><br>
 
-            <label>Grupo 3 (opcional):<br>
+            <label>Grupo 3:</label>
                 <select name="grupo3">
-                    <option value="">---</option>
+                    <option value=""></option>
                     {% for grupo in grupos %}
-                        <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                        <option value="grupo3">{{ grupo.nombre }}</option>
                     {% endfor %}
                 </select>
-            </label>
-
-        <br>
-        <br>
+            <br><br>
         
         <input type="submit" value="Crear Concierto">
     </form>

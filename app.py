@@ -208,6 +208,7 @@ def crear_grupo():
 
 @app.route('/crear_concierto', methods=["GET", "POST"])
 def crear_concierto():
+    grupos=Grupo.query.all()
     if request.method == "POST":
         ubicacion = request.form['ubicacion']
         fecha = request.form['fecha']
@@ -232,7 +233,7 @@ def crear_concierto():
 
         return f"Gracias por añadir un integrante!"
     
-    return render_template('conciertos.html')
+    return render_template('conciertos.html',grupos=grupos)
 
 @app.route('/integrantes/<id>')
 def get_integrante_by_id(id):
