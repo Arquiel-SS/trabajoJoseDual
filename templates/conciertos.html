@@ -9,8 +9,6 @@
     <h1>Creación de Conciertos</h1>
 
     <form method="post">
-        <fieldset>
-            <legend>Información del Concierto</legend>
 
             <label>Ubicación:<br>
                 <input type="text" name="ubicacion" required>
@@ -27,12 +25,11 @@
             <label>Hora de fin:<br>
                 <input type="time" name="hora_fin" required>
             </label>
-        </fieldset>
 
         <br>
 
-        <fieldset>
-            <legend>Grupos Participantes</legend>
+        <br>
+        <br>
 
             <label>Grupo 1:<br>
                 <select name="grupo1" required>
@@ -59,10 +56,10 @@
                     {% endfor %}
                 </select>
             </label>
-        </fieldset>
 
         <br>
-
+        <br>
+        
         <input type="submit" value="Crear Concierto">
     </form>
 </body>
