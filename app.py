@@ -177,12 +177,12 @@ def crear_grupo():
         integrante3 = request.form.get('integrante3', None)
         integrante4 = request.form.get('integrante4', None)
         integrante5 = request.form.get('integrante5', None)
+        nuevo_grupo = Grupo(nombre, genero, fecha_formacion, integrante1, integrante2, integrante3, integrante4, integrante5)
+        db.session.add(nuevo_grupo)
+        db.session.commit()
 
         return "Gracias por añadir un grupo!"
 
-    nuevo_grupo = Grupo(nombre, genero, fecha_formacion, integrante1, integrante2, integrante3, integrante4, integrante5)
-    db.session.add(nuevo_grupo)
-    db.session.commit()
 
     return render_template('grupos.html')
 
@@ -203,7 +203,7 @@ def crear_conciertos():
 
         return f"Gracias por añadir un integrante!"
     
-    return render_template('integrantes.html')
+    return render_template('conciertos.html')
 
 if __name__ == "__main__":
     with app.app_context():
