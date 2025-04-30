@@ -148,17 +148,23 @@ class Concierto(db.Model):
 def mostrar_opciones_index():
     return render_template('index.html')
 
-@app.route('/crear_integrante')
-def crear_integrante():
+@app.route('/add_integrante', methods=["GET", "POST"])
+def agregar_user():
+    if request.method == "POST":
+        nombre = request.form['id']
+        apellidos = request.form['apellidos']
+        edad = request.form['edad']
+        nacionalidad = request.form['nacionalidad']
+        fecha_nacimiento = request.form['fecha_nacimiento']
+        rol = request.form['rol']
+
+        return f"Gracias por añadir un integrante!"
+    
+    new_integrante = Integrante(nombre, apellidos, edad, nacionalidad, fecha_nacimiento, rol)
+    db.session.add(new_integrante)
+    db.session.commit()
+    
     return render_template('integrantes.html')
-
-@app.route('/crear_grupo')
-def crear_grupo():
-    return render_template('grupos.html')
-
-@app.route('/crear_conciertos')
-def crear_concierto():
-    return render_template('conciertos.html')
 
 if __name__ == "__main__":
     with app.app_context():
