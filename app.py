@@ -147,7 +147,9 @@ class Concierto(db.Model):
 
 @app.route('/')
 def mostrar_opciones_index():
-    return render_template('index.html')
+    integrantes=Integrante.query.all()
+    grupos=Grupo.query.all()
+    return render_template('index.html',integrantes=integrantes,grupos=grupos)
 
 @app.route('/crear_integrante', methods=["GET", "POST"])
 def crear_integrante():
@@ -176,6 +178,7 @@ def crear_integrante():
 
 @app.route('/crear_grupo', methods=["GET", "POST"])
 def crear_grupo():
+    integrantes=Integrante.query.all()
     if request.method == 'POST':
         nombre = request.form['nombre']
         genero = request.form['genero']
@@ -185,17 +188,26 @@ def crear_grupo():
         integrante3 = request.form.get('integrante3', None)
         integrante4 = request.form.get('integrante4', None)
         integrante5 = request.form.get('integrante5', None)
-        nuevo_grupo = Grupo(nombre, genero, fecha_formacion, integrante1, integrante2, integrante3, integrante4, integrante5)
+        nuevo_grupo = Grupo(
+            nombre=nombre,
+            genero=genero,
+            fecha_formacion=fecha_formacion,
+            integrante1=integrante1,
+            integrante2=integrante2,
+            integrante3=integrante3,
+            integrante4=integrante4,
+            integrante5=integrante5
+            )
         db.session.add(nuevo_grupo)
         db.session.commit()
 
         return "Gracias por añadir un grupo!"
 
 
-    return render_template('grupos.html')
+    return render_template('grupos.html',integrantes=integrantes)
 
 @app.route('/crear_concierto', methods=["GET", "POST"])
-def crear_conciertos():
+def crear_concierto():
     if request.method == "POST":
         ubicacion = request.form['ubicacion']
         fecha = request.form['fecha']
