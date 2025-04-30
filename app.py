@@ -157,12 +157,12 @@ def crear_integrante():
         nacionalidad = request.form['nacionalidad']
         fecha_nacimiento = request.form['fecha_nacimiento']
         rol = request.form['rol']
+        new_integrante = Integrante(nombre, apellidos, edad, nacionalidad, fecha_nacimiento, rol)
+        db.session.add(new_integrante)
+        db.session.commit()
 
         return f"Gracias por añadir un integrante!"
     
-    new_integrante = Integrante(nombre, apellidos, edad, nacionalidad, fecha_nacimiento, rol)
-    db.session.add(new_integrante)
-    db.session.commit()
     
     return render_template('integrantes.html')
 
@@ -186,7 +186,7 @@ def crear_grupo():
 
     return render_template('grupos.html')
 
-@app.route('/crear_conciertos')
+@app.route('/crear_concierto')
 def crear_conciertos():
     if request.method == "POST":
         ubicacion = request.form['ubicacion']
@@ -197,12 +197,11 @@ def crear_conciertos():
         grupo4 = request.form['grupo4']
         hora_inicio = request.form['hora_inicio']
         hora_fin = request.form['hora_fin']
+        new_concierto = Concierto(ubicacion, fecha, grupo1, grupo2, grupo3, grupo4, hora_inicio, hora_fin)
+        db.session.add(new_concierto)
+        db.session.commit()
 
         return f"Gracias por añadir un integrante!"
-    
-    new_concierto = Concierto(ubicacion, fecha, grupo1, grupo2, grupo3, grupo4, hora_inicio, hora_fin)
-    db.session.add(new_concierto)
-    db.session.commit()
     
     return render_template('integrantes.html')
 
