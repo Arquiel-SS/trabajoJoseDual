@@ -186,7 +186,7 @@ def crear_grupo():
 
     return render_template('grupos.html')
 
-@app.route('/crear_concierto')
+@app.route('/crear_concierto', methods=["GET", "POST"])
 def crear_conciertos():
     if request.method == "POST":
         ubicacion = request.form['ubicacion']
