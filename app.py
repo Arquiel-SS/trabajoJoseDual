@@ -144,6 +144,8 @@ class Concierto(db.Model):
         self.hora_fin=new[1]
 
 
+
+
 @app.route('/')
 def mostrar_opciones_index():
     return render_template('index.html')
@@ -165,6 +167,14 @@ def agregar_user():
     db.session.commit()
     
     return render_template('integrantes.html')
+
+@app.route('/crear_grupo')
+def crear_grupo():
+    return render_template('grupos.html')
+
+@app.route('/crear_conciertos')
+def crear_concierto():
+    return render_template('conciertos.html')
 
 if __name__ == "__main__":
     with app.app_context():
