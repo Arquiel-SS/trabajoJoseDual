@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,render_template,redirect,url_for
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -52,7 +52,7 @@ class Integrante(db.Model):
     
     def set_rol(self,new):
         self.rol=new
-   
+
 class Grupo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(80), nullable=False)
@@ -143,7 +143,14 @@ class Concierto(db.Model):
         self.hora_inicio=new[0]
         self.hora_fin=new[1]
 
-@app.route('/integrantes.html')
-def integrantes():
-    Integrante.query.all()
-    return render.template
+
+@app.route('/')
+def mostrar_forms():
+    return render_template('index.html')
+
+
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+
+    app.run(debug=True)
