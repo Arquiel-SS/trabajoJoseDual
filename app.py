@@ -148,6 +148,18 @@ class Concierto(db.Model):
 def mostrar_opciones_index():
     return render_template('index.html')
 
+@app.route('/crear_integrante')
+def crear_integrante():
+    return render_template('integrantes.html')
+
+@app.route('/crear_grupo')
+def crear_grupo():
+    return render_template('grupos.html')
+
+@app.route('/crear_conciertos')
+def crear_concierto():
+    return render_template('conciertos.html')
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

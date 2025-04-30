@@ -8,15 +8,15 @@
 <body>
     <h1>Menú</h1>
     <ul>
-        <li><a href="#">Crear Integrante</a></li>
+        <li><a href="{{ url_for('crear_integrante') }}">Crear Integrante</a></li>
         {% if integrantes %}
-            <li><a href="#">Crear Grupo Musical</a></li>
+            <li><a href="{{ url_for('grupos.html') }}">Crear Grupo Musical</a></li>
         {% else %}
             <li>Crear Grupo Musical (Necesita integrantes)</li>
         {% endif %}
 
         {% if grupos %}
-            <li><a href="#">Crear Concierto</a></li>
+            <li><a href="{{ url_for('integrantes.html') }}">Crear Concierto</a></li>
         {% else %}
             <li>Crear Concierto (Necesita grupos)</li>
         {% endif %}
