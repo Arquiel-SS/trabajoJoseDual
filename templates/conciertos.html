@@ -1,11 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Creación de Conciertos</title>
 </head>
 <body>
-    
+    <h1>Creación de Conciertos</h1>
+
+    <form method="post">
+        <fieldset>
+            <legend>Información del Concierto</legend>
+
+            <label>Ubicación:<br>
+                <input type="text" name="ubicacion" required>
+            </label><br><br>
+
+            <label>Fecha:<br>
+                <input type="date" name="fecha" required>
+            </label><br><br>
+
+            <label>Hora de inicio:<br>
+                <input type="time" name="hora_inicio" required>
+            </label><br><br>
+
+            <label>Hora de fin:<br>
+                <input type="time" name="hora_fin" required>
+            </label>
+        </fieldset>
+
+        <br>
+
+        <fieldset>
+            <legend>Grupos Participantes</legend>
+
+            <label>Grupo 1:<br>
+                <select name="grupo1" required>
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label><br><br>
+
+            <label>Grupo 2 (opcional):<br>
+                <select name="grupo2">
+                    <option value="">---</option>
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label><br><br>
+
+            <label>Grupo 3 (opcional):<br>
+                <select name="grupo3">
+                    <option value="">---</option>
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </fieldset>
+
+        <br>
+
+        <input type="submit" value="Crear Concierto">
+    </form>
 </body>
 </html>
