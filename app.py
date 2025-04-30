@@ -212,12 +212,21 @@ def crear_concierto():
         ubicacion = request.form['ubicacion']
         fecha = request.form['fecha']
         grupo1 = request.form['grupo1']
-        grupo2 = request.form['grupo2']
-        grupo3 = request.form['grupo3']
-        grupo4 = request.form['grupo4']
+        grupo2 = request.form.get('grupo2', None)
+        grupo3 = request.form.get('grupo3', None)
+        grupo4 = request.form.get('grupo4', None)
         hora_inicio = request.form['hora_inicio']
         hora_fin = request.form['hora_fin']
-        new_concierto = Concierto(ubicacion, fecha, grupo1, grupo2, grupo3, grupo4, hora_inicio, hora_fin)
+        new_concierto = Concierto(
+            ubicacion=ubicacion, 
+            fecha=fecha, 
+            grupo1=grupo1, 
+            grupo2=grupo2, 
+            grupo3=grupo3, 
+            grupo4=grupo4, 
+            hora_inicio=hora_inicio, 
+            hora_fin=hora_fin
+            )
         db.session.add(new_concierto)
         db.session.commit()
 
