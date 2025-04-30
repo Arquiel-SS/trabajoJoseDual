@@ -77,7 +77,19 @@ class Grupo(db.Model):
         return self.fecha_formacion
     
     def set_integrantes(self, new):
-        pass #se revisa
+        self.integrante1=new[0]
+
+        if new[1] is not None:
+            self.integrante2=new[1]
+        
+        if new[2] is not None:
+            self.integrante3=new[2]
+
+        if new[3] is not None:
+            self.integrante4=new[3]
+
+        if new[4] is not None:
+            self.integrante5=new[4]
 
     def set_nombre(self,new):
         self.nombre=new
@@ -119,10 +131,17 @@ class Concierto(db.Model):
         self.fecha=new
 
     def set_grupos(self, new):
-        pass #revisar
+        self.grupo1=new[0]
+        
+        if new[1] is not None:
+            self.grupo2=new[1]
+        
+        if new[2] is not None:
+            self.grupo3=new[2]
 
     def set_horario(self, new):
-        pass #revisar
+        self.hora_inicio=new[0]
+        self.hora_fin=new[1]
 
 
 @app.route('/')
