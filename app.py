@@ -144,8 +144,6 @@ class Concierto(db.Model):
         self.hora_fin=new[1]
 
 
-
-
 @app.route('/')
 def mostrar_opciones_index():
     return render_template('index.html')
@@ -168,8 +166,24 @@ def agregar_user():
     
     return render_template('integrantes.html')
 
-@app.route('/crear_grupo')
+@app.route('/crear_grupo', mothods=["GET", "POST"])
 def crear_grupo():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        genero = request.form['genero']
+        fecha_formacion = request.form['fecha_formacion']
+        integrante1 = request.form['integrante1']
+        integrante2 = request.form.get('integrante2', None)
+        integrante3 = request.form.get('integrante3', None)
+        integrante4 = request.form.get('integrante4', None)
+        integrante5 = request.form.get('integrante5', None)
+
+        return "Gracias por añadir un grupo!"
+
+    nuevo_grupo = Grupo(nombre, genero, fecha_formacion, integrante1, integrante2, integrante3, integrante4, integrante5)
+    db.session.add(nuevo_grupo)
+    db.session.commit()
+
     return render_template('grupos.html')
 
 @app.route('/crear_conciertos')
