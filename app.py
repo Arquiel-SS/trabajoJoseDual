@@ -166,7 +166,7 @@ def crear_integrante():
     
     return render_template('integrantes.html')
 
-@app.route('/crear_grupo', mothods=["GET", "POST"])
+@app.route('/crear_grupo', methods=["GET", "POST"])
 def crear_grupo():
     if request.method == 'POST':
         nombre = request.form['nombre']
