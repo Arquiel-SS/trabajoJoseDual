@@ -218,7 +218,7 @@ def get_integrante_by_id(id):
     integrante=Integrante.query.get(id)
     grupos=Grupo.query.all()
     gruposWhereIntegranteIs=[]
-    if grupos is None:
+    if not grupos:
         return "No hay grupos creados"
     elif integrante is not None:
         for grupo in grupos:
