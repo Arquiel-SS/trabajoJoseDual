@@ -213,6 +213,34 @@ def crear_conciertos():
     
     return render_template('conciertos.html')
 
+@app.route('/integrantes/<id>')
+def get_integrante_by_id(id):
+    integrante=Integrante.query.get(id)
+    grupos=Grupo.query.all()
+    gruposWhereIntegranteIs=[]
+    if grupos is None:
+        return "No hay grupos creados"
+    elif integrante is not None:
+        for grupo in grupos:
+            match(integrante.nombre):
+                case grupo.integrante1:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante2:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante3:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante4:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante5:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case _:
+                    pass
+        if len(gruposWhereIntegranteIs)==0:
+            gruposWhereIntegranteIs.append("No esta en ningun grupo")
+        return render_template('get_integrante.html',integrante=integrante,grupos=gruposWhereIntegranteIs)
+    else:
+        return f"No se ha encontrado el integrante con id {id}"
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

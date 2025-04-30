@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<head>
+    {{integrante.nombre}}
+</head>
+<body>
+    <h1>A que grupos pertenece {{integrante.nombre}}?</h1>
+    {% for grupo in grupos %}
+        <p>{{grupo}}</p>
+    {% endfor %}
+</body>
