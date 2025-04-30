@@ -157,13 +157,20 @@ def crear_integrante():
         nacionalidad = request.form['nacionalidad']
         fecha_nacimiento = request.form['fecha_nacimiento']
         rol = request.form['rol']
-        new_integrante = Integrante(nombre, apellidos, edad, nacionalidad, fecha_nacimiento, rol)
+
+        new_integrante = Integrante(
+            nombre=nombre,
+            apellidos=apellidos,
+            edad=edad,
+            nacionalidad=nacionalidad,
+            fecha_nacimiento=fecha_nacimiento,
+            rol=rol
+        )
         db.session.add(new_integrante)
         db.session.commit()
 
-        return f"Gracias por añadir un integrante!"
-    
-    
+        return "Gracias por añadir un integrante!"
+
     return render_template('integrantes.html')
 
 @app.route('/crear_grupo', methods=["GET", "POST"])
