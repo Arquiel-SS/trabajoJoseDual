@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -155,7 +156,7 @@ def crear_integrante():
         apellidos = request.form['apellidos']
         edad = request.form['edad']
         nacionalidad = request.form['nacionalidad']
-        fecha_nacimiento = request.form['fecha_nacimiento']
+        fecha_nacimiento = datetime.strptime(request.form['fecha_nacimiento'], "%Y-%m-%d").date()
         rol = request.form['rol']
 
         new_integrante = Integrante(
@@ -178,7 +179,7 @@ def crear_grupo():
     if request.method == 'POST':
         nombre = request.form['nombre']
         genero = request.form['genero']
-        fecha_formacion = request.form['fecha_formacion']
+        fecha_formacion = datetime.strptime(request.form['fecha_formacion'], "%Y-%m-%d").date()
         integrante1 = request.form['integrante1']
         integrante2 = request.form.get('integrante2', None)
         integrante3 = request.form.get('integrante3', None)
