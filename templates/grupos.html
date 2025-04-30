@@ -3,9 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crear Grupo</title>
 </head>
 <body>
-    
+    <form method="post">
+        <label>Nombre del grupo: <input type="text" name="nombre" required></label>
+        <label>Género musical: <input type="text" name="genero" required></label>
+        <label>Fecha de formación: <input type="date" name="fecha_formacion" required></label>
+        <br>
+
+        <br>
+
+        <label>Integrante 1:</label>
+            <select name="integrante1" required>
+                {% for integrante in integrantes %}
+                    <option value="{{ integrante.nombre }}">nombre del integrante</option>
+                {% endfor %}
+            </select><br>
+            
+            <br>
+
+        <label>Integrante 2:</label>
+            <select name="integrante2">
+                {% for integrante in integrantes %}
+                    <option value="{{ integrante.nombre }}">nombre del integrante</option>
+                {% endfor %}
+            </select><br>
+
+            <br>
+        
+        <label>Integrante 3:</label>
+            <select name="integrante3">
+                {% for integrante in integrantes %}
+                    <option value="{{ integrante.nombre }}">nombre del integrante</option>
+                {% endfor %}
+            </select><br>
+
+            <br>
+        
+        <label>Integrante 4:</label>
+            <select name="integrante4">
+                {% for integrante in integrantes %}
+                    <option value="{{ integrante.nombre }}">nombre del integrante</option>
+                {% endfor %}
+            </select><br>
+
+            <br>
+        
+        <label>Integrante 5:</label>
+            <select name="integrante5">
+                {% for integrante in integrantes %}
+                    <option value="{{ integrante.nombre }}">nombre del integrante</option>
+                {% endfor %}
+            </select><br>
+
+            <br>
+
+        <input type="submit" value="Crear Grupo">
+    </form>
 </body>
 </html>
