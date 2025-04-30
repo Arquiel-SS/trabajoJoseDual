@@ -145,7 +145,7 @@ class Concierto(db.Model):
 
 
 @app.route('/')
-def mostrar_forms():
+def mostrar_opciones_index():
     return render_template('index.html')
 
 if __name__ == "__main__":
