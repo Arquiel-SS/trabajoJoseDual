@@ -146,7 +146,9 @@ class Concierto(db.Model):
 
 @app.route('/')
 def mostrar_opciones_index():
-    return render_template('index.html')
+    integrantes=Integrante.query.all()
+    grupos=Grupo.query.all()
+    return render_template('index.html',integrantes=integrantes,grupos=grupos)
 
 @app.route('/crear_integrante', methods=["GET", "POST"])
 def crear_integrante():
@@ -168,6 +170,7 @@ def crear_integrante():
 
 @app.route('/crear_grupo', methods=["GET", "POST"])
 def crear_grupo():
+    integrantes=Integrante.query.all()
     if request.method == 'POST':
         nombre = request.form['nombre']
         genero = request.form['genero']
@@ -177,33 +180,80 @@ def crear_grupo():
         integrante3 = request.form.get('integrante3', None)
         integrante4 = request.form.get('integrante4', None)
         integrante5 = request.form.get('integrante5', None)
-        nuevo_grupo = Grupo(nombre, genero, fecha_formacion, integrante1, integrante2, integrante3, integrante4, integrante5)
+        nuevo_grupo = Grupo(
+            nombre=nombre,
+            genero=genero,
+            fecha_formacion=fecha_formacion,
+            integrante1=integrante1,
+            integrante2=integrante2,
+            integrante3=integrante3,
+            integrante4=integrante4,
+            integrante5=integrante5
+            )
         db.session.add(nuevo_grupo)
         db.session.commit()
 
         return "Gracias por añadir un grupo!"
 
 
-    return render_template('grupos.html')
+    return render_template('grupos.html',integrantes=integrantes)
 
 @app.route('/crear_concierto', methods=["GET", "POST"])
-def crear_conciertos():
+def crear_concierto():
+    grupos=Grupo.query.all()
     if request.method == "POST":
         ubicacion = request.form['ubicacion']
         fecha = request.form['fecha']
         grupo1 = request.form['grupo1']
-        grupo2 = request.form['grupo2']
-        grupo3 = request.form['grupo3']
-        grupo4 = request.form['grupo4']
+        grupo2 = request.form.get('grupo2', None)
+        grupo3 = request.form.get('grupo3', None)
+        grupo4 = request.form.get('grupo4', None)
         hora_inicio = request.form['hora_inicio']
         hora_fin = request.form['hora_fin']
-        new_concierto = Concierto(ubicacion, fecha, grupo1, grupo2, grupo3, grupo4, hora_inicio, hora_fin)
+        new_concierto = Concierto(
+            ubicacion=ubicacion, 
+            fecha=fecha, 
+            grupo1=grupo1, 
+            grupo2=grupo2, 
+            grupo3=grupo3, 
+            grupo4=grupo4, 
+            hora_inicio=hora_inicio, 
+            hora_fin=hora_fin
+            )
         db.session.add(new_concierto)
         db.session.commit()
 
         return f"Gracias por añadir un integrante!"
     
-    return render_template('conciertos.html')
+    return render_template('conciertos.html',grupos=grupos)
+
+@app.route('/integrantes/<id>')
+def get_integrante_by_id(id):
+    integrante=Integrante.query.get(id)
+    grupos=Grupo.query.all()
+    gruposWhereIntegranteIs=[]
+    if not grupos:
+        return "No hay grupos creados"
+    elif integrante is not None:
+        for grupo in grupos:
+            match(integrante.nombre):
+                case grupo.integrante1:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante2:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante3:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante4:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case grupo.integrante5:
+                    gruposWhereIntegranteIs.append(grupo.nombre)
+                case _:
+                    pass
+        if len(gruposWhereIntegranteIs)==0:
+            gruposWhereIntegranteIs.append("No esta en ningun grupo")
+        return render_template('get_integrante.html',integrante=integrante,grupos=gruposWhereIntegranteIs)
+    else:
+        return f"No se ha encontrado el integrante con id {id}"
 
 if __name__ == "__main__":
     with app.app_context():

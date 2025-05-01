@@ -17,7 +17,7 @@
         <label>Integrante 1:</label>
             <select name="integrante1" required>
                 {% for integrante in integrantes %}
-                    <option value="{{ integrante1.nombre }}">nombre del integrante</option>
+                    <option value="integrante1">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
             
@@ -25,8 +25,9 @@
 
         <label>Integrante 2:</label>
             <select name="integrante2">
+                <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="{{ integrante2.nombre }}">nombre del integrante</option>
+                    <option value="integrante2">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 
@@ -34,8 +35,9 @@
         
         <label>Integrante 3:</label>
             <select name="integrante3">
+                <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="{{ integrante3.nombre }}">nombre del integrante</option>
+                    <option value="integrante3">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 
@@ -43,8 +45,9 @@
         
         <label>Integrante 4:</label>
             <select name="integrante4">
+                <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="{{ integrante4.nombre }}">nombre del integrante</option>
+                    <option value="integrante4">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 
@@ -52,8 +55,9 @@
         
         <label>Integrante 5:</label>
             <select name="integrante5">
+                <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="{{ integrante5.nombre }}">nombre del integrante</option>
+                    <option value="integrante5">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 
