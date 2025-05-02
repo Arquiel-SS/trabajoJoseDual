@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -170,16 +171,20 @@ def crear_integrante():
 
 @app.route('/crear_grupo', methods=["GET", "POST"])
 def crear_grupo():
-    integrantes=Integrante.query.all()
+    integrantes = Integrante.query.all()
     if request.method == 'POST':
         nombre = request.form['nombre']
         genero = request.form['genero']
-        fecha_formacion = request.form['fecha_formacion']
+        
+        fecha_formacion_str = request.form['fecha_formacion']
+        fecha_formacion = datetime.strptime(fecha_formacion_str, '%Y-%m-%d').date()
+        
         integrante1 = request.form['integrante1']
         integrante2 = request.form.get('integrante2', None)
         integrante3 = request.form.get('integrante3', None)
         integrante4 = request.form.get('integrante4', None)
         integrante5 = request.form.get('integrante5', None)
+
         nuevo_grupo = Grupo(
             nombre=nombre,
             genero=genero,
@@ -189,34 +194,31 @@ def crear_grupo():
             integrante3=integrante3,
             integrante4=integrante4,
             integrante5=integrante5
-            )
+        )
         db.session.add(nuevo_grupo)
         db.session.commit()
 
         return "Gracias por añadir un grupo!"
 
-
-    return render_template('grupos.html',integrantes=integrantes)
+    return render_template('grupos.html', integrantes=integrantes)
 
 @app.route('/crear_concierto', methods=["GET", "POST"])
 def crear_concierto():
     grupos=Grupo.query.all()
     if request.method == "POST":
         ubicacion = request.form['ubicacion']
-        fecha = request.form['fecha']
+        fecha = datetime.strptime(request.form['fecha'], '%Y-%m-%d').date()
         grupo1 = request.form['grupo1']
         grupo2 = request.form.get('grupo2', None)
         grupo3 = request.form.get('grupo3', None)
-        grupo4 = request.form.get('grupo4', None)
         hora_inicio = request.form['hora_inicio']
         hora_fin = request.form['hora_fin']
         new_concierto = Concierto(
             ubicacion=ubicacion, 
             fecha=fecha, 
             grupo1=grupo1, 
-            grupo2=grupo2, 
-            grupo3=grupo3, 
-            grupo4=grupo4, 
+            grupo2=grupo2,
+            grupo3=grupo3,
             hora_inicio=hora_inicio, 
             hora_fin=hora_fin
             )
@@ -254,6 +256,62 @@ def get_integrante_by_id(id):
         return render_template('get_integrante.html',integrante=integrante,grupos=gruposWhereIntegranteIs)
     else:
         return f"No se ha encontrado el integrante con id {id}"
+    
+
+@app.route('/consultar_datos', methods=['GET', 'POST'])
+def consultar_datos():
+    integrantes = Integrante.query.all()
+    grupos = Grupo.query.all()
+    conciertos = Concierto.query.all()
+    filtro_resultado = []
+    filtro_tipo = None
+
+    if request.method == 'POST':
+        filtro_tipo = request.form['filtro_tipo']
+        filtro_valor = request.form['filtro_valor']
+
+        if filtro_tipo == 'grupo':
+            grupo = Grupo.query.get(filtro_valor)
+            if grupo:
+    
+                filtro_resultado = [c for c in conciertos if c.nombre == grupo.nombre]
+            else:
+                filtro_resultado = []
+
+        elif filtro_tipo == 'integrante':
+            integrante = Integrante.query.get(filtro_valor)
+            gruposWhereIntegranteIs = []
+
+            if integrante is not None and grupos:
+                for grupo in grupos:
+                    match(integrante.nombre):
+                        case grupo.integrante1:
+                            gruposWhereIntegranteIs.append(grupo)
+                        case grupo.integrante2:
+                            gruposWhereIntegranteIs.append(grupo)
+                        case grupo.integrante3:
+                            gruposWhereIntegranteIs.append(grupo)
+                        case grupo.integrante4:
+                            gruposWhereIntegranteIs.append(grupo)
+                        case grupo.integrante5:
+                            gruposWhereIntegranteIs.append(grupo)
+                        case _:
+                            pass
+                if len(gruposWhereIntegranteIs) == 0:
+                    gruposWhereIntegranteIs.append(
+                        Grupo(nombre="No está en ningún grupo", genero="N/A")
+                    )
+                filtro_resultado = gruposWhereIntegranteIs
+            else:
+                filtro_resultado = [Grupo(nombre=f"No se ha encontrado el integrante con id {filtro_valor}", genero="N/A")]
+
+    return render_template('consultar_datos.html',
+                           integrantes=integrantes,
+                           grupos=grupos,
+                           conciertos=conciertos,
+                           filtro_resultado=filtro_resultado,
+                           filtro_tipo=filtro_tipo)
+
 
 if __name__ == "__main__":
     with app.app_context():
