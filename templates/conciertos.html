@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <title>Creación de Conciertos</title>
+</head>
+<body>
+    <h1>Creación de Conciertos</h1>
+
+    <form method="post">
+
+            <label>Ubicación:<br>
+                <input type="text" name="ubicacion" required>
+            </label><br><br>
+
+            <label>Fecha:<br>
+                <input type="date" name="fecha" required>
+            </label><br><br>
+
+            <label>Hora de inicio:<br>
+                <input type="time" name="hora_inicio" required>
+            </label><br><br>
+
+            <label>Hora de fin:<br>
+                <input type="time" name="hora_fin" required>
+            </label>
+
+        <br>
+
+        <br>
+        <br>
+
+            <label>Grupo 1:</label>
+                <select name="grupo1" required>
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.nombre }}">{{ grupo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            <br><br>
+
+            <label>Grupo 2:</label>
+                <select name="grupo2">
+                    <option value=""></option>
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.nombre }}">{{ grupo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            <br><br>
+
+            <label>Grupo 3:</label>
+                <select name="grupo3">
+                    <option value=""></option>
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.nombre }}">{{ grupo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            <br><br>
+        
+        <input type="submit" value="Crear Concierto">
+    </form>
+</body>
+</html>

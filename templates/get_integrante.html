@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <title>Información de Integrante</title>
+</head>
+<body>
+    <h1>A que grupos pertenece el miembro:{{integrante.nombre}}?</h1>
+    {% for grupo in grupos %}
+        <p>Grupo - {{grupo}}</p>
+    {% endfor %}
+</body>

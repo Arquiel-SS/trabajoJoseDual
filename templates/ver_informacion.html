@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <title>Ver toda la información</title>
+</head>
+<body>
+    <h1>Toda la información</h1>
+
+    <h2>Integrantes</h2>
+    <ul>
+        {% for i in integrantes %}
+            <li>{{ i.id }} - {{ i.nombre }} {{ i.apellidos }}: {{ i.rol }} nacido el {{ i.fecha_nacimiento }},{{ i.nacionalidad }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Grupos</h2>
+    <ul>
+        {% for g in grupos %}
+            <li>{{ g.id }} - {{ g.nombre }} ({{ g.genero }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Conciertos</h2>
+    <ul>
+        {% for c in conciertos %}
+            <li>{{ c.id }} - {{ c.nombre }} el {{ c.fecha }} en {{ c.ubicacion }} de {{ c.hora_inicio }} a {{ c.hora_fin }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
