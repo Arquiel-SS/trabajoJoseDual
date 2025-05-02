@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Información del Grupo</title>
+</head>
+<body>
+    <h1>Grupo: {{ grupo.nombre }}</h1>
+    <p><strong>Género:</strong> {{ grupo.genero }}</p>
+    <p><strong>Fecha de formación:</strong> {{ grupo.fecha_formacion }}</p>
+
+    <h2>Conciertos:</h2>
+    <ul>
+        {% for c in conciertos %}
+            <li>{{ c }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

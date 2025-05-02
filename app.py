@@ -213,6 +213,15 @@ def crear_concierto():
         grupo3 = request.form.get('grupo3', None)
         hora_inicio = request.form['hora_inicio']
         hora_fin = request.form['hora_fin']
+
+        # Convierte las horas de formato HH:MM a objetos time
+        hora_inicio_str = request.form['hora_inicio']
+        hora_fin_str = request.form['hora_fin']
+        
+        # Usamos strptime para convertir la cadena en un objeto time
+        hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
+        hora_fin = datetime.strptime(hora_fin_str, '%H:%M').time()
+        
         new_concierto = Concierto(
             ubicacion=ubicacion, 
             fecha=fecha, 
@@ -258,8 +267,8 @@ def get_integrante_by_id(id):
         return f"No se ha encontrado el integrante con id {id}"
     
 
-@app.route('/consultar_datos', methods=['GET', 'POST'])
-def consultar_datos():
+@app.route('/ver_informacion', methods=['GET', 'POST'])
+def ver_informacion():
     integrantes = Integrante.query.all()
     grupos = Grupo.query.all()
     conciertos = Concierto.query.all()
@@ -273,8 +282,7 @@ def consultar_datos():
         if filtro_tipo == 'grupo':
             grupo = Grupo.query.get(filtro_valor)
             if grupo:
-    
-                filtro_resultado = [c for c in conciertos if c.nombre == grupo.nombre]
+                filtro_resultado = [c for c in conciertos if c.grupo1 == grupo.nombre or c.grupo2 == grupo.nombre or c.grupo3 == grupo.nombre]
             else:
                 filtro_resultado = []
 
@@ -284,19 +292,10 @@ def consultar_datos():
 
             if integrante is not None and grupos:
                 for grupo in grupos:
-                    match(integrante.nombre):
-                        case grupo.integrante1:
-                            gruposWhereIntegranteIs.append(grupo)
-                        case grupo.integrante2:
-                            gruposWhereIntegranteIs.append(grupo)
-                        case grupo.integrante3:
-                            gruposWhereIntegranteIs.append(grupo)
-                        case grupo.integrante4:
-                            gruposWhereIntegranteIs.append(grupo)
-                        case grupo.integrante5:
-                            gruposWhereIntegranteIs.append(grupo)
-                        case _:
-                            pass
+                    # Verificamos si el integrante está en algún grupo
+                    if integrante.nombre in [grupo.integrante1, grupo.integrante2, grupo.integrante3, grupo.integrante4, grupo.integrante5]:
+                        gruposWhereIntegranteIs.append(grupo)
+                
                 if len(gruposWhereIntegranteIs) == 0:
                     gruposWhereIntegranteIs.append(
                         Grupo(nombre="No está en ningún grupo", genero="N/A")
@@ -305,12 +304,31 @@ def consultar_datos():
             else:
                 filtro_resultado = [Grupo(nombre=f"No se ha encontrado el integrante con id {filtro_valor}", genero="N/A")]
 
-    return render_template('consultar_datos.html',
+    return render_template('ver_informacion.html',
                            integrantes=integrantes,
                            grupos=grupos,
                            conciertos=conciertos,
                            filtro_resultado=filtro_resultado,
                            filtro_tipo=filtro_tipo)
+
+
+@app.route('/grupos/<id>')
+def get_grupo_by_id(id):
+    grupo = Grupo.query.get(id)
+    conciertos = Concierto.query.all()
+    conciertos_del_grupo = []
+
+    if grupo is None:
+        return f"No se ha encontrado el grupo con id {id}"
+
+    for concierto in conciertos:
+        if grupo.nombre in [concierto.grupo1, concierto.grupo2, concierto.grupo3]:
+            conciertos_del_grupo.append(f"{concierto.fecha} en {concierto.ubicacion} (de {concierto.hora_inicio} a {concierto.hora_fin})")
+
+    if not conciertos_del_grupo:
+        conciertos_del_grupo.append("Este grupo no tiene conciertos registrados.")
+
+    return render_template('get_grupo.html', grupo=grupo, conciertos=conciertos_del_grupo)
 
 
 if __name__ == "__main__":
