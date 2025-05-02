@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
     <title>Crear Grupo</title>
 </head>
 <body>
@@ -17,7 +18,7 @@
         <label>Integrante 1:</label>
             <select name="integrante1" required>
                 {% for integrante in integrantes %}
-                    <option value="integrante1">{{integrante.nombre}}</option>
+                    <option value="{{integrante.nombre}}">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
             
@@ -27,7 +28,7 @@
             <select name="integrante2">
                 <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="integrante2">{{integrante.nombre}}</option>
+                    <option value="{{integrante.nombre}}">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 
@@ -37,7 +38,7 @@
             <select name="integrante3">
                 <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="integrante3">{{integrante.nombre}}</option>
+                    <option value="{{integrante.nombre}}">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 
@@ -47,7 +48,7 @@
             <select name="integrante4">
                 <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="integrante4">{{integrante.nombre}}</option>
+                    <option value="{{integrante.nombre}}">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 
@@ -57,7 +58,7 @@
             <select name="integrante5">
                 <option value=""></option>
                 {% for integrante in integrantes %}
-                    <option value="integrante5">{{integrante.nombre}}</option>
+                    <option value="{{integrante.nombre}}">{{integrante.nombre}}</option>
                 {% endfor %}
             </select><br>
 

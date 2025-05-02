@@ -8,7 +8,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
 class Integrante(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     nombre=db.Column(db.String(80), nullable=False)
@@ -158,9 +157,16 @@ def crear_integrante():
         apellidos = request.form['apellidos']
         edad = request.form['edad']
         nacionalidad = request.form['nacionalidad']
-        fecha_nacimiento = request.form['fecha_nacimiento']
+        fecha_nacimiento = datetime.strptime(request.form['fecha_nacimiento'], '%Y-%m-%d').date()
         rol = request.form['rol']
-        new_integrante = Integrante(nombre, apellidos, edad, nacionalidad, fecha_nacimiento, rol)
+        new_integrante = Integrante(
+            nombre=nombre, 
+            apellidos=apellidos, 
+            edad=edad, 
+            nacionalidad=nacionalidad, 
+            fecha_nacimiento=fecha_nacimiento, 
+            rol=rol
+        )
         db.session.add(new_integrante)
         db.session.commit()
 
@@ -230,15 +236,23 @@ def crear_concierto():
             grupo3=grupo3,
             hora_inicio=hora_inicio, 
             hora_fin=hora_fin
-            )
+        )
         db.session.add(new_concierto)
         db.session.commit()
 
-        return f"Gracias por añadir un integrante!"
+        return f"Gracias por añadir un concierto!"
     
     return render_template('conciertos.html',grupos=grupos)
 
-@app.route('/integrantes/<id>')
+@app.route('/ver_informacion', methods=['GET', 'POST'])
+def ver_informacion():
+    integrantes = Integrante.query.all()
+    grupos = Grupo.query.all()
+    conciertos = Concierto.query.all()
+
+    return render_template('ver_informacion.html', integrantes=integrantes, grupos=grupos, conciertos=conciertos)
+
+@app.route('/integrante/<id>')
 def get_integrante_by_id(id):
     integrante=Integrante.query.get(id)
     grupos=Grupo.query.all()
@@ -265,54 +279,8 @@ def get_integrante_by_id(id):
         return render_template('get_integrante.html',integrante=integrante,grupos=gruposWhereIntegranteIs)
     else:
         return f"No se ha encontrado el integrante con id {id}"
-    
 
-@app.route('/ver_informacion', methods=['GET', 'POST'])
-def ver_informacion():
-    integrantes = Integrante.query.all()
-    grupos = Grupo.query.all()
-    conciertos = Concierto.query.all()
-    filtro_resultado = []
-    filtro_tipo = None
-
-    if request.method == 'POST':
-        filtro_tipo = request.form['filtro_tipo']
-        filtro_valor = request.form['filtro_valor']
-
-        if filtro_tipo == 'grupo':
-            grupo = Grupo.query.get(filtro_valor)
-            if grupo:
-                filtro_resultado = [c for c in conciertos if c.grupo1 == grupo.nombre or c.grupo2 == grupo.nombre or c.grupo3 == grupo.nombre]
-            else:
-                filtro_resultado = []
-
-        elif filtro_tipo == 'integrante':
-            integrante = Integrante.query.get(filtro_valor)
-            gruposWhereIntegranteIs = []
-
-            if integrante is not None and grupos:
-                for grupo in grupos:
-                    # Verificamos si el integrante está en algún grupo
-                    if integrante.nombre in [grupo.integrante1, grupo.integrante2, grupo.integrante3, grupo.integrante4, grupo.integrante5]:
-                        gruposWhereIntegranteIs.append(grupo)
-                
-                if len(gruposWhereIntegranteIs) == 0:
-                    gruposWhereIntegranteIs.append(
-                        Grupo(nombre="No está en ningún grupo", genero="N/A")
-                    )
-                filtro_resultado = gruposWhereIntegranteIs
-            else:
-                filtro_resultado = [Grupo(nombre=f"No se ha encontrado el integrante con id {filtro_valor}", genero="N/A")]
-
-    return render_template('ver_informacion.html',
-                           integrantes=integrantes,
-                           grupos=grupos,
-                           conciertos=conciertos,
-                           filtro_resultado=filtro_resultado,
-                           filtro_tipo=filtro_tipo)
-
-
-@app.route('/grupos/<id>')
+@app.route('/grupo/<id>')
 def get_grupo_by_id(id):
     grupo = Grupo.query.get(id)
     conciertos = Concierto.query.all()

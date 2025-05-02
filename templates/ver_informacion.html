@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
     <title>Ver toda la información</title>
 </head>
 <body>
@@ -11,7 +12,7 @@
     <h2>Integrantes</h2>
     <ul>
         {% for i in integrantes %}
-            <li>{{ i.id }} - {{ i.nombre }} {{ i.apellidos }} ({{ i.rol }})</li>
+            <li>{{ i.id }} - {{ i.nombre }} {{ i.apellidos }}: {{ i.rol }} nacido el {{ i.fecha_nacimiento }},{{ i.nacionalidad }}</li>
         {% endfor %}
     </ul>
 
@@ -25,36 +26,8 @@
     <h2>Conciertos</h2>
     <ul>
         {% for c in conciertos %}
-            <li>{{ c.id }} - {{ c.nombre }} el {{ c.fecha }} en {{ c.lugar }}</li>
+            <li>{{ c.id }} - {{ c.nombre }} el {{ c.fecha }} en {{ c.ubicacion }} de {{ c.hora_inicio }} a {{ c.hora_fin }}</li>
         {% endfor %}
     </ul>
-
-    <h2>Filtrar por relaciones</h2>
-    <form method="post">
-        <label>Filtrar por:
-            <select name="filtro_tipo">
-                <option value="grupo">ID de Grupo (ver conciertos)</option>
-                <option value="integrante">ID de Integrante (ver grupos)</option>
-            </select>
-        </label>
-        <input type="text" name="filtro_valor" placeholder="Introduce el ID" required>
-        <input type="submit" value="Buscar">
-    </form>
-
-    {% if filtro_resultado %}
-        <h3>Resultado:</h3>
-        <ul>
-            {% if filtro_tipo == 'grupo' %}
-                {% for c in filtro_resultado %}
-                    <li>{{ c.nombre }} el {{ c.fecha }} en {{ c.lugar }}</li>
-                {% endfor %}
-            {% elif filtro_tipo == 'integrante' %}
-                {% for g in filtro_resultado %}
-                    <li>{{ g.nombre }} ({{ g.genero }})</li>
-                {% endfor %}
-            {% endif %}
-        </ul>
-    {% endif %}
-
 </body>
 </html>

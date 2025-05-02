@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
     <title>Creación de Conciertos</title>
 </head>
 <body>
@@ -34,7 +35,7 @@
             <label>Grupo 1:</label>
                 <select name="grupo1" required>
                     {% for grupo in grupos %}
-                        <option value="grupo1">{{ grupo.nombre }}</option>
+                        <option value="{{ grupo.nombre }}">{{ grupo.nombre }}</option>
                     {% endfor %}
                 </select>
             <br><br>
@@ -43,7 +44,7 @@
                 <select name="grupo2">
                     <option value=""></option>
                     {% for grupo in grupos %}
-                        <option value="grupo2">{{ grupo.nombre }}</option>
+                        <option value="{{ grupo.nombre }}">{{ grupo.nombre }}</option>
                     {% endfor %}
                 </select>
             <br><br>
@@ -52,7 +53,7 @@
                 <select name="grupo3">
                     <option value=""></option>
                     {% for grupo in grupos %}
-                        <option value="grupo3">{{ grupo.nombre }}</option>
+                        <option value="{{ grupo.nombre }}">{{ grupo.nombre }}</option>
                     {% endfor %}
                 </select>
             <br><br>
