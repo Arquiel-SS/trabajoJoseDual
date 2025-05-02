@@ -254,6 +254,25 @@ def get_integrante_by_id(id):
         return render_template('get_integrante.html',integrante=integrante,grupos=gruposWhereIntegranteIs)
     else:
         return f"No se ha encontrado el integrante con id {id}"
+    
+@app.route('/grupos/<id>')
+def get_grupo_by_id(id):
+    grupo = Grupo.query.get(id)
+    conciertos = Concierto.query.all()
+    conciertos_del_grupo = []
+
+    if grupo is None:
+        return f"No se ha encontrado el grupo con id {id}"
+
+    for concierto in conciertos:
+        if grupo.nombre in [concierto.grupo1, concierto.grupo2, concierto.grupo3]:
+            conciertos_del_grupo.append(f"{concierto.fecha} en {concierto.ubicacion} (de {concierto.hora_inicio} a {concierto.hora_fin})")
+
+    if not conciertos_del_grupo:
+        conciertos_del_grupo.append("Este grupo no tiene conciertos registrados.")
+
+    return render_template('get_grupo.html', grupo=grupo, conciertos=conciertos_del_grupo)
+
 
 if __name__ == "__main__":
     with app.app_context():
